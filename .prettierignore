@@ -12,3 +12,6 @@ next-env.d.ts
 *.md
 **/*.mdc
 docs
+
+# binary assets
+src/app/favicon.ico

@@ -2,10 +2,10 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { createSupabaseServerClient } from "@/shared/supabase/server";
 import { magicLinkSchema } from "./schema";
 
-/** Best-effort current origin (works on localhost and in production). */
 async function getOrigin() {
   const h = await headers();
   const origin = h.get("origin");
@@ -15,14 +15,14 @@ async function getOrigin() {
   return `${protocol}://${host}`;
 }
 
-/** Start Google OAuth: returns a URL we must redirect the browser to. */
 export async function signInWithGoogle() {
   const supabase = await createSupabaseServerClient();
   const origin = await getOrigin();
+  const locale = await getLocale();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: `${origin}/auth/callback` },
+    options: { redirectTo: `${origin}/${locale}/auth/callback` },
   });
 
   if (error || !data.url) {
@@ -32,7 +32,6 @@ export async function signInWithGoogle() {
   redirect(data.url);
 }
 
-/** Send a magic-link email. Redirects back to /sign-in with a status flag. */
 export async function signInWithMagicLink(formData: FormData) {
   const parsed = magicLinkSchema.safeParse({ email: formData.get("email") });
 
@@ -42,10 +41,11 @@ export async function signInWithMagicLink(formData: FormData) {
 
   const supabase = await createSupabaseServerClient();
   const origin = await getOrigin();
+  const locale = await getLocale();
 
   const { error } = await supabase.auth.signInWithOtp({
     email: parsed.data.email,
-    options: { emailRedirectTo: `${origin}/auth/callback` },
+    options: { emailRedirectTo: `${origin}/${locale}/auth/callback` },
   });
 
   if (error) {
@@ -55,7 +55,6 @@ export async function signInWithMagicLink(formData: FormData) {
   redirect("/sign-in?sent=true");
 }
 
-/** Sign the current user out and return home. */
 export async function signOut() {
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();

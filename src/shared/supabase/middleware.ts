@@ -1,15 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, type NextResponse } from "next/server";
 import { env } from "@/shared/env";
 import type { Database } from "@/types/database";
 
 /**
- * Refreshes the Supabase auth session on every request and keeps the
- * auth cookies in sync between the request and the response.
+ * Refreshes the Supabase auth session and attaches updated auth cookies
+ * to the response produced by the next-intl middleware.
  */
-export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
-
+export async function updateSession(
+  request: NextRequest,
+  response: NextResponse,
+) {
   const supabase = createServerClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
@@ -19,21 +20,15 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
-          supabaseResponse = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
+            response.cookies.set(name, value, options),
           );
         },
       },
     },
   );
 
-  // Refreshes the token. Do not add code between the client creation
-  // above and this call — it can cause hard-to-debug session issues.
   await supabase.auth.getUser();
 
-  return supabaseResponse;
+  return response;
 }
