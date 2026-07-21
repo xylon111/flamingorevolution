@@ -1,0 +1,21 @@
+{
+  "common": {
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "home": {
+    "title": "Flamingo Revolution",
+    "signedInAs": "Signed in as {email}"
+  },
+  "signIn": {
+    "title": "Sign in",
+    "subtitle": "Access the Flamingo Revolution platform.",
+    "google": "Continue with Google",
+    "or": "or",
+    "email": "Email",
+    "sendLink": "Send magic link",
+    "checkEmail": "Check your email for a sign-in link.",
+    "invalidEmail": "Please enter a valid email address.",
+    "error": "Something went wrong. Please try again."
+  }
+}

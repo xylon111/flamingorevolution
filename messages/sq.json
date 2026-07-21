@@ -1,0 +1,21 @@
+{
+  "common": {
+    "signIn": "Hyr",
+    "signOut": "Dil"
+  },
+  "home": {
+    "title": "Revolucioni i Flamingove",
+    "signedInAs": "I identifikuar si {email}"
+  },
+  "signIn": {
+    "title": "Hyr",
+    "subtitle": "Hyni në platformën e Revolucionit të Flamingove.",
+    "google": "Vazhdo me Google",
+    "or": "ose",
+    "email": "Email",
+    "sendLink": "Dërgo lidhjen magjike",
+    "checkEmail": "Kontrolloni email-in tuaj për lidhjen e hyrjes.",
+    "invalidEmail": "Ju lutemi shkruani një adresë email të vlefshme.",
+    "error": "Diçka shkoi keq. Ju lutemi provoni përsëri."
+  }
+}
