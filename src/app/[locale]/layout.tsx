@@ -7,6 +7,7 @@ import "../globals.css";
 import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/shared/ui/theme-provider";
 import { ThemeToggle } from "@/shared/ui/theme-toggle";
+import { LanguageSwitcher } from "@/shared/ui/language-switcher";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -46,7 +47,8 @@ export default async function LocaleLayout({
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <NextIntlClientProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="fixed top-4 right-4 z-50">
+            <div className="fixed top-4 right-4 z-50 flex gap-2">
+              <LanguageSwitcher />
               <ThemeToggle />
             </div>
             {children}
