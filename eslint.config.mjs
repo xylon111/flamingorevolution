@@ -8,6 +8,24 @@ const eslintConfig = defineConfig([
   ...nextTs,
   prettier,
   // Override default ignores of eslint-config-next.
+  {
+    files: ["**/*.{ts,tsx}"],
+    ignores: ["src/shared/supabase/service.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["**/supabase/service", "@/shared/supabase/service"],
+              message:
+                "The Supabase service client bypasses RLS and is SERVER-ONLY. Never import it into client/browser code.",
+            },
+          ],
+        },
+      ],
+    },
+  },
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
