@@ -21,4 +21,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   },
+  // When SKIP_ENV_VALIDATION is set (e.g. in CI), don't require real env values.
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 });
