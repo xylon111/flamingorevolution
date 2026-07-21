@@ -73,3 +73,10 @@ Format per decision: **Decision · Why · Alternatives considered · Tradeoffs �
 **Alternatives.** Vercel Pro ($20/seat) now — unnecessary cost. Cloudflare Pages from day one — viable; Vercel's Next.js DX is smoother to start.
 **Tradeoffs.** Avoid Vercel-only features (or wrap them) to preserve portability.
 **Review.** Migrate to Cloudflare Pages if bandwidth caps or the commercial-use clause bite.
+
+## ADR-0011 — Remote-first Supabase migrations (no local Docker)
+Decision: Manage the database with the Supabase CLI in remote-first mode: write versioned SQL migrations in supabase/migrations/ and apply them to the linked cloud project with `supabase db push`. Do not run the local Docker-based Supabase stack.
+Why: Docker Desktop is a heavy dependency (virtualization/WSL2, high RAM) that a solo developer on Windows does not need for a project with no real user data yet. Remote-first keeps the toolchain light while still giving versioned, source-controlled migrations.
+Alternatives: Full local stack via `supabase start` (Docker) gives isolation and offline testing but is heavy. Dashboard-only SQL has no version control.
+Tradeoffs: No isolated local database; migrations apply straight to the cloud project. Acceptable now (throwaway data). `supabase db push` prints a harmless Docker warning from an optional local caching step; this is expected and can be ignored.
+Review: Revisit if we need a separate staging database or offline development; we can add Docker local dev or use the second free Supabase project then.
