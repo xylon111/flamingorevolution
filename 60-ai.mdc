@@ -1,0 +1,12 @@
+---
+description: How AI features must be built
+globs: ["src/features/ai/**", "scripts/worker/**"]
+alwaysApply: false
+---
+# AI
+- All AI goes through the `AIProvider` interface (generateSummary, extractMetadata, generateTags, detectDuplicates, clusterEvents, translate, summarizeDaily). NEVER call Gemini or any LLM SDK directly from features.
+- First implementation: `GeminiFlashProvider`. Providers must be swappable without touching feature code.
+- Validate every provider output with Zod; on malformed output, retry once then mark the job `error`.
+- The pipeline writes DRAFTS only (`status = needs_review`). It never publishes. People are proposed and default to `redacted`.
+- Send only already-public content to the model; never submitter PII. Respect batch/rate limits (free tier).
+- The platform must work if AI is disabled — guard AI paths behind a flag.

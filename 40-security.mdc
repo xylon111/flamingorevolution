@@ -1,0 +1,12 @@
+---
+description: Security and privacy requirements for all input, data, and rendering
+alwaysApply: true
+---
+# Security & privacy (always)
+- Validate EVERY external input with Zod at the boundary (actions, route handlers, worker inputs).
+- Ensure an RLS policy covers each new data-access path; default-deny.
+- Never log submitter IP addresses or fingerprints; keep PII minimal. Analytics must be cookieless.
+- Uploads: validate by magic bytes + size caps; strip EXIF/GPS via `sharp` (re-encode) before storing.
+- Treat AI output and user rich text as untrusted: sanitize (DOMPurify) before rendering as HTML.
+- Secrets come only from managed env stores; the service-role key never ships to the client.
+- Sensitive map markers (e.g. police presence) are gated/deferred — see docs/THREAT_MODEL.md and ADR-0009.

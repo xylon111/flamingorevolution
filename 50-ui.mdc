@@ -1,0 +1,12 @@
+---
+description: UI, styling, and accessibility conventions
+globs: ["**/*.tsx"]
+alwaysApply: false
+---
+# UI
+- Tailwind + shadcn/ui primitives from `src/shared/ui/`. Reuse before adding.
+- Mobile-first and responsive. Support dark and light mode via theme tokens (no hard-coded colors).
+- Accessible by default: semantic HTML, keyboard navigable, ARIA labels, sufficient contrast (WCAG).
+- Minimal, purposeful animation only. Optimize images; lazy-load below the fold.
+- Bilingual: Albanian (sq, primary) + English (en). No hard-coded user-facing strings — use i18n.
+- Prefer Server Components; add `"use client"` only when interactivity requires it.

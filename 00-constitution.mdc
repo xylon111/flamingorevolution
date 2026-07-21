@@ -1,0 +1,19 @@
+---
+description: Core project principles and hard invariants that apply to all work
+alwaysApply: true
+---
+# Constitution (always)
+This is an AI-powered **Event Intelligence Platform**. Events are the primary entity; sources are folded into events. It is NOT a social network, news site, or blog.
+
+Guiding order: architecture > speed; simplicity > complexity; maintainability > cleverness; fewer dependencies > more.
+
+Hard invariants — never violate without a new ADR in docs/DECISIONS.md:
+- AI output is always a DRAFT. Publishing is always a human moderator action.
+- The platform must stay fully usable with AI switched off.
+- RLS is enabled on every table; the service-role key never reaches the browser.
+- Application code never calls an LLM directly — only through the `AIProvider` interface.
+- Store references to external content, not copies of copyrighted media.
+- Never store submitter IP addresses or fingerprints. AI-detected people default to `redacted`.
+- Security and contributor privacy take priority over convenience.
+
+See docs/CONSTITUTION.md and docs/ARCHITECTURE.md before proposing structural changes.

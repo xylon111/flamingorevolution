@@ -1,0 +1,15 @@
+---
+description: Feature-based project structure and where code belongs
+alwaysApply: true
+---
+# Architecture (always)
+Organize by FEATURE, not by technical layer. Features live in `src/features/<name>/`:
+`components/ queries.ts actions.ts schema.ts types.ts utils.ts index.ts`.
+
+Rules:
+- A feature exposes its public surface via `index.ts`. Other features import ONLY from that `index.ts`.
+- Business logic lives in features, never in `src/app/` route files (those only compose features).
+- Cross-cutting primitives go in `src/shared/` (supabase clients, ui, auth helper, validation, i18n, images, dates).
+- Reads → `queries.ts` (Supabase server client, RLS-scoped). Mutations → `actions.ts` as Server Actions: authorize → Zod validate → mutate → audit → revalidate.
+- Keep files small and single-purpose (~≤300 lines). Split by concern.
+Stack: Next.js App Router + TypeScript, Supabase (Postgres/Auth/Storage), Tailwind + shadcn/ui, Cloudflare. No Prisma. No ORM.

@@ -1,0 +1,12 @@
+---
+description: Supabase data access, migrations, RLS, and generated types
+globs: ["src/features/**", "supabase/**", "scripts/worker/**"]
+alwaysApply: false
+---
+# Supabase data access
+- Access Postgres via the Supabase JS client only. Three clients in `src/shared/supabase/`: `server.ts` (RSC/actions, user JWT), `client.ts` (browser), `service.ts` (service role).
+- **NEVER import `service.ts` into client/browser code.** Service role bypasses RLS — use it only in the worker and explicit server-only admin ops.
+- Authorization is enforced by RLS at the database. Role comes from the `user_role` JWT claim (Auth Hook). App-layer `shared/auth/authorize.ts` mirrors it for UX only.
+- Schema changes = a NEW SQL migration in `supabase/migrations/` (never edit an applied one). Every new table: enable RLS + default-deny + explicit policies in the same migration.
+- After migrating, regenerate `src/types/database.ts` and use those types in queries.
+- Search is Postgres FTS (`search_vector` + GIN + `pg_trgm`). No embeddings/pgvector in v1.
