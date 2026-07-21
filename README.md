@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flamingo Revolution — Event Intelligence Platform
 
-## Getting Started
+An AI-assisted information hub that organizes public reports about the Albanian
+"Flamingo Revolution" protest movement into verified **events** — not another
+social feed. Many sources (posts, articles, videos, citizen reports) are merged
+into a single event page with a summary, timeline, media, map location, and
+original sources. AI drafts; **humans verify and publish.**
 
-First, run the development server:
+> Status: **early development (Milestone M0 — foundations).** No public features yet.
 
-```bash
+## Tech stack
+
+- **Next.js (App Router) + TypeScript** — web app
+- **Tailwind CSS + shadcn/ui** — styling and components
+- **Supabase** — Postgres, Auth, Storage (with Row Level Security)
+- **Zod + @t3-oss/env-nextjs** — validation and typed environment variables
+- **ESLint + Prettier + Husky + lint-staged** — code quality
+- **GitHub Actions** — CI and a Supabase keep-alive
+- **Vercel + Cloudflare** — hosting and CDN (planned)
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
+
+## Getting started
+
+**Prerequisites:** Node.js 22 LTS, npm, and a free Supabase project.
+
+\`\`\`bash
+# 1. Install dependencies
+npm install
+
+# 2. Create your local env file, then fill in your Supabase values
+cp .env.example .env.local
+#    edit .env.local: project URL, publishable key, secret key
+
+# 3. Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | What it does |
+| --- | --- |
+| \`npm run dev\` | Start the development server |
+| \`npm run build\` | Production build |
+| \`npm run start\` | Run the production build |
+| \`npm run lint\` | Lint with ESLint |
+| \`npm run typecheck\` | Type-check with TypeScript |
+| \`npm run format\` | Format all files with Prettier |
+| \`npm run format:check\` | Check formatting without writing |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+\`\`\`
+src/
+  app/         Next.js routes (App Router)
+  features/    Feature modules (events, sources, moderation, ai, ...)
+  shared/      Cross-cutting code (supabase clients, env, ui, utils)
+docs/          Architecture, roadmap, decisions, policies
+.cursor/rules/ AI-assistant coding rules
+\`\`\`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · [Decisions](docs/DECISIONS.md)
+- [Constitution](docs/CONSTITUTION.md) · [Contributing](docs/CONTRIBUTING.md)
+- [Content policy](docs/CONTENT_POLICY.md) · [Threat model](docs/THREAT_MODEL.md)
 
-## Deploy on Vercel
+## Security & privacy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project handles sensitive civic information. Secrets live only in
+\`.env.local\` (never committed); the Supabase secret key is server-only. See
+[docs/THREAT_MODEL.md](docs/THREAT_MODEL.md).
