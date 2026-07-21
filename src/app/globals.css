@@ -128,3 +128,35 @@
     @apply font-sans;
   }
 }
+
+/* ── Flamingo Revolution brand palette: nature green + flamingo pink ── */
+:root {
+  --primary: oklch(0.52 0.1 155);
+  --primary-foreground: oklch(0.98 0.01 155);
+  --accent: oklch(0.95 0.03 10);
+  --accent-foreground: oklch(0.45 0.13 10);
+  --ring: oklch(0.52 0.1 155);
+  --flamingo: oklch(0.7 0.16 10);
+  --flamingo-foreground: oklch(0.99 0.01 10);
+  --nature: oklch(0.52 0.1 155);
+  --nature-foreground: oklch(0.98 0.01 155);
+}
+
+.dark {
+  --primary: oklch(0.62 0.11 155);
+  --primary-foreground: oklch(0.16 0.03 155);
+  --accent: oklch(0.3 0.06 10);
+  --accent-foreground: oklch(0.92 0.04 10);
+  --ring: oklch(0.62 0.11 155);
+  --flamingo: oklch(0.74 0.15 10);
+  --flamingo-foreground: oklch(0.16 0.03 10);
+  --nature: oklch(0.62 0.11 155);
+  --nature-foreground: oklch(0.16 0.03 155);
+}
+
+@theme inline {
+  --color-flamingo: var(--flamingo);
+  --color-flamingo-foreground: var(--flamingo-foreground);
+  --color-nature: var(--nature);
+  --color-nature-foreground: var(--nature-foreground);
+}
