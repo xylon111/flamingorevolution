@@ -1,0 +1,14 @@
+# dependencies & build output
+node_modules
+.next
+out
+build
+
+# generated / vendor
+package-lock.json
+next-env.d.ts
+
+# keep hand-authored docs & rules exactly as written
+*.md
+**/*.mdc
+docs
