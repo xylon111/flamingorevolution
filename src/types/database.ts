@@ -14,6 +14,88 @@ export type Database = {
   };
   public: {
     Tables: {
+      announcements: {
+        Row: {
+          body: string | null;
+          created_at: string;
+          created_by: string | null;
+          id: string;
+          is_pinned: boolean;
+          published_at: string | null;
+          title: string;
+        };
+        Insert: {
+          body?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          id?: string;
+          is_pinned?: boolean;
+          published_at?: string | null;
+          title: string;
+        };
+        Update: {
+          body?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          id?: string;
+          is_pinned?: boolean;
+          published_at?: string | null;
+          title?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "announcements_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      audit_log: {
+        Row: {
+          action: string;
+          actor_id: string | null;
+          after: Json | null;
+          before: Json | null;
+          created_at: string;
+          entity_id: string | null;
+          entity_type: string;
+          id: string;
+          reason: string | null;
+        };
+        Insert: {
+          action: string;
+          actor_id?: string | null;
+          after?: Json | null;
+          before?: Json | null;
+          created_at?: string;
+          entity_id?: string | null;
+          entity_type: string;
+          id?: string;
+          reason?: string | null;
+        };
+        Update: {
+          action?: string;
+          actor_id?: string | null;
+          after?: Json | null;
+          before?: Json | null;
+          created_at?: string;
+          entity_id?: string | null;
+          entity_type?: string;
+          id?: string;
+          reason?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_actor_id_fkey";
+            columns: ["actor_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       categories: {
         Row: {
           created_at: string;
@@ -319,6 +401,63 @@ export type Database = {
           },
         ];
       };
+      map_markers: {
+        Row: {
+          created_at: string;
+          event_id: string | null;
+          id: string;
+          label: string | null;
+          lat: number;
+          lng: number;
+          status: Database["public"]["Enums"]["marker_status"];
+          type: Database["public"]["Enums"]["marker_type"];
+          valid_from: string | null;
+          valid_until: string | null;
+          verified_by: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          event_id?: string | null;
+          id?: string;
+          label?: string | null;
+          lat: number;
+          lng: number;
+          status?: Database["public"]["Enums"]["marker_status"];
+          type: Database["public"]["Enums"]["marker_type"];
+          valid_from?: string | null;
+          valid_until?: string | null;
+          verified_by?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          event_id?: string | null;
+          id?: string;
+          label?: string | null;
+          lat?: number;
+          lng?: number;
+          status?: Database["public"]["Enums"]["marker_status"];
+          type?: Database["public"]["Enums"]["marker_type"];
+          valid_from?: string | null;
+          valid_until?: string | null;
+          verified_by?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "map_markers_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "map_markers_verified_by_fkey";
+            columns: ["verified_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       media: {
         Row: {
           caption: string | null;
@@ -584,6 +723,15 @@ export type Database = {
     Enums: {
       event_status:
         "draft" | "needs_review" | "published" | "rejected" | "archived";
+      marker_status: "unverified" | "active" | "expired";
+      marker_type:
+        | "protest"
+        | "roadblock"
+        | "medical_aid"
+        | "water"
+        | "meeting_point"
+        | "police_presence"
+        | "press";
       media_storage: "external" | "supabase";
       media_type: "photo" | "video" | "document";
       organization_type:
@@ -753,6 +901,16 @@ export const Constants = {
         "published",
         "rejected",
         "archived",
+      ],
+      marker_status: ["unverified", "active", "expired"],
+      marker_type: [
+        "protest",
+        "roadblock",
+        "medical_aid",
+        "water",
+        "meeting_point",
+        "police_presence",
+        "press",
       ],
       media_storage: ["external", "supabase"],
       media_type: ["photo", "video", "document"],
