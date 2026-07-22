@@ -1,7 +1,39 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { getEventBySlug } from "@/features/events";
 import { Link } from "@/i18n/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const event = await getEventBySlug(slug);
+
+  if (!event) {
+    return { title: "Event not found — Flamingo Revolution" };
+  }
+
+  const description =
+    event.editor_summary ?? event.ai_summary ?? "Flamingo Revolution event";
+
+  return {
+    title: `${event.title} — Flamingo Revolution`,
+    description,
+    openGraph: {
+      title: event.title,
+      description,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description,
+    },
+  };
+}
 
 export default async function EventDetailPage({
   params,

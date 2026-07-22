@@ -3,6 +3,12 @@
     "signIn": "Hyr",
     "signOut": "Dil"
   },
+  "nav": {
+    "events": "Ngjarje",
+    "timeline": "Kronologji",
+    "map": "Harta",
+    "search": "Kërko"
+  },
   "home": {
     "title": "Revolucioni i Flamingove",
     "signedInAs": "I identifikuar si {email}"

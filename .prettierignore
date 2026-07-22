@@ -15,3 +15,7 @@ docs
 
 # binary assets
 src/app/favicon.ico
+
+# env files
+.env.example
+.env*

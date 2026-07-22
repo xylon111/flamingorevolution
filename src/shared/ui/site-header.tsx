@@ -8,6 +8,7 @@ import { LanguageSwitcher } from "@/shared/ui/language-switcher";
 export async function SiteHeader() {
   const user = await getCurrentUser();
   const tc = await getTranslations("common");
+  const tn = await getTranslations("nav");
 
   const navLink = "text-nature hover:text-nature/80 text-sm font-medium";
 
@@ -19,16 +20,16 @@ export async function SiteHeader() {
             Flamingo Revolution
           </Link>
           <Link href="/events" className={navLink}>
-            Events
+            {tn("events")}
           </Link>
           <Link href="/timeline" className={navLink}>
-            Timeline
+            {tn("timeline")}
           </Link>
           <Link href="/map" className={navLink}>
-            Map
+            {tn("map")}
           </Link>
           <Link href="/search" className={navLink}>
-            Search
+            {tn("search")}
           </Link>
         </div>
 
