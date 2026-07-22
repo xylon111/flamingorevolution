@@ -74,6 +74,102 @@ export type Database = {
         };
         Relationships: [];
       };
+      event_organizations: {
+        Row: {
+          event_id: string;
+          organization_id: string;
+          role: string | null;
+        };
+        Insert: {
+          event_id: string;
+          organization_id: string;
+          role?: string | null;
+        };
+        Update: {
+          event_id?: string;
+          organization_id?: string;
+          role?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "event_organizations_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "event_organizations_organization_id_fkey";
+            columns: ["organization_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      event_people: {
+        Row: {
+          event_id: string;
+          mention_context: string | null;
+          person_id: string;
+        };
+        Insert: {
+          event_id: string;
+          mention_context?: string | null;
+          person_id: string;
+        };
+        Update: {
+          event_id?: string;
+          mention_context?: string | null;
+          person_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "event_people_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "event_people_person_id_fkey";
+            columns: ["person_id"];
+            isOneToOne: false;
+            referencedRelation: "people";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      event_tags: {
+        Row: {
+          event_id: string;
+          tag_id: string;
+        };
+        Insert: {
+          event_id: string;
+          tag_id: string;
+        };
+        Update: {
+          event_id?: string;
+          tag_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "event_tags_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "event_tags_tag_id_fkey";
+            columns: ["tag_id"];
+            isOneToOne: false;
+            referencedRelation: "tags";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       events: {
         Row: {
           ai_summary: string | null;
@@ -168,6 +264,69 @@ export type Database = {
           },
         ];
       };
+      organizations: {
+        Row: {
+          created_at: string;
+          id: string;
+          is_verified: boolean;
+          name: string;
+          slug: string;
+          type: Database["public"]["Enums"]["organization_type"];
+          website: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          is_verified?: boolean;
+          name: string;
+          slug: string;
+          type?: Database["public"]["Enums"]["organization_type"];
+          website?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          is_verified?: boolean;
+          name?: string;
+          slug?: string;
+          type?: Database["public"]["Enums"]["organization_type"];
+          website?: string | null;
+        };
+        Relationships: [];
+      };
+      people: {
+        Row: {
+          created_at: string;
+          display_name: string;
+          id: string;
+          is_verified: boolean;
+          kind: Database["public"]["Enums"]["person_kind"];
+          role_description: string | null;
+          slug: string;
+          visibility: Database["public"]["Enums"]["person_visibility"];
+        };
+        Insert: {
+          created_at?: string;
+          display_name: string;
+          id?: string;
+          is_verified?: boolean;
+          kind?: Database["public"]["Enums"]["person_kind"];
+          role_description?: string | null;
+          slug: string;
+          visibility?: Database["public"]["Enums"]["person_visibility"];
+        };
+        Update: {
+          created_at?: string;
+          display_name?: string;
+          id?: string;
+          is_verified?: boolean;
+          kind?: Database["public"]["Enums"]["person_kind"];
+          role_description?: string | null;
+          slug?: string;
+          visibility?: Database["public"]["Enums"]["person_visibility"];
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -195,6 +354,27 @@ export type Database = {
         };
         Relationships: [];
       };
+      tags: {
+        Row: {
+          created_at: string;
+          id: string;
+          name: string;
+          slug: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          name: string;
+          slug: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          name?: string;
+          slug?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -205,6 +385,11 @@ export type Database = {
     Enums: {
       event_status:
         "draft" | "needs_review" | "published" | "rejected" | "archived";
+      organization_type:
+        "ngo" | "party" | "gov" | "police" | "media" | "business" | "other";
+      person_kind:
+        "public_official" | "organization_rep" | "public_figure" | "private";
+      person_visibility: "public" | "restricted" | "redacted";
       user_role: "user" | "moderator" | "admin";
     };
     CompositeTypes: {
@@ -340,6 +525,22 @@ export const Constants = {
         "rejected",
         "archived",
       ],
+      organization_type: [
+        "ngo",
+        "party",
+        "gov",
+        "police",
+        "media",
+        "business",
+        "other",
+      ],
+      person_kind: [
+        "public_official",
+        "organization_rep",
+        "public_figure",
+        "private",
+      ],
+      person_visibility: ["public", "restricted", "redacted"],
       user_role: ["user", "moderator", "admin"],
     },
   },
