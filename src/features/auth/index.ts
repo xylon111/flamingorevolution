@@ -1,2 +1,6 @@
 export { signInWithGoogle, signInWithMagicLink, signOut } from "./actions";
-export { getCurrentUser } from "./queries";
+export {
+  getCurrentUser,
+  getCurrentProfile,
+  currentUserIsModerator,
+} from "./queries";
