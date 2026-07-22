@@ -1,6 +1,7 @@
 import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { EventListItem } from "@/features/events/queries";
+import { ConfidenceBadge } from "@/features/events/components/confidence-badge";
 
 export async function EventCard({ event }: { event: EventListItem }) {
   const locale = await getLocale();
@@ -21,6 +22,7 @@ export async function EventCard({ event }: { event: EventListItem }) {
             {categoryName}
           </span>
         )}
+        <ConfidenceBadge confidence={event.confidence} />
       </div>
       <h2 className="mb-1 text-lg font-semibold">{event.title}</h2>
       {event.editor_summary && (

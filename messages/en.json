@@ -9,6 +9,12 @@
     "map": "Map",
     "search": "Search"
   },
+  "confidence": {
+    "label": "Confidence level",
+    "high": "High confidence",
+    "medium": "Medium confidence",
+    "low": "Low confidence"
+  },
   "home": {
     "title": "Flamingo Revolution",
     "signedInAs": "Signed in as {email}"

@@ -9,6 +9,12 @@
     "map": "Harta",
     "search": "Kërko"
   },
+  "confidence": {
+    "label": "Niveli i besueshmërisë",
+    "high": "Besueshmëri e lartë",
+    "medium": "Besueshmëri mesatare",
+    "low": "Besueshmëri e ulët"
+  },
   "home": {
     "title": "Revolucioni i Flamingove",
     "signedInAs": "I identifikuar si {email}"

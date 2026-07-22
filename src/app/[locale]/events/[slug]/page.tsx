@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { getEventBySlug } from "@/features/events";
+import { getEventBySlug, ConfidenceBadge } from "@/features/events";
 import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata({
@@ -22,11 +22,7 @@ export async function generateMetadata({
   return {
     title: `${event.title} — Flamingo Revolution`,
     description,
-    openGraph: {
-      title: event.title,
-      description,
-      type: "article",
-    },
+    openGraph: { title: event.title, description, type: "article" },
     twitter: {
       card: "summary_large_image",
       title: event.title,
@@ -73,6 +69,7 @@ export default async function EventDetailPage({
             {categoryName}
           </span>
         )}
+        <ConfidenceBadge confidence={event.confidence} />
       </div>
 
       <h1 className="mb-4 text-3xl font-bold text-flamingo">{event.title}</h1>
