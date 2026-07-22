@@ -64,3 +64,33 @@ export async function getEventBySlug(slug: string) {
 
   return data;
 }
+
+/** Latest published events for the home feed (limited count). */
+export async function getLatestEvents(limit = 6) {
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("events")
+    .select(
+      `
+      id,
+      slug,
+      title,
+      editor_summary,
+      event_date,
+      confidence,
+      is_featured,
+      city:cities ( name_sq, name_en ),
+      category:categories ( slug, name_sq, name_en )
+    `,
+    )
+    .eq("status", "published")
+    .order("event_date", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    throw new Error(`Failed to load latest events: ${error.message}`);
+  }
+
+  return data ?? [];
+}
