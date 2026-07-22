@@ -14,6 +14,160 @@ export type Database = {
   };
   public: {
     Tables: {
+      categories: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          id: string;
+          name_en: string;
+          name_sq: string;
+          slug: string;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          name_en: string;
+          name_sq: string;
+          slug: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          name_en?: string;
+          name_sq?: string;
+          slug?: string;
+        };
+        Relationships: [];
+      };
+      cities: {
+        Row: {
+          country: string;
+          created_at: string;
+          id: string;
+          lat: number | null;
+          lng: number | null;
+          name_en: string;
+          name_sq: string;
+          slug: string;
+        };
+        Insert: {
+          country?: string;
+          created_at?: string;
+          id?: string;
+          lat?: number | null;
+          lng?: number | null;
+          name_en: string;
+          name_sq: string;
+          slug: string;
+        };
+        Update: {
+          country?: string;
+          created_at?: string;
+          id?: string;
+          lat?: number | null;
+          lng?: number | null;
+          name_en?: string;
+          name_sq?: string;
+          slug?: string;
+        };
+        Relationships: [];
+      };
+      events: {
+        Row: {
+          ai_summary: string | null;
+          category_id: string | null;
+          city_id: string | null;
+          confidence: number | null;
+          created_at: string;
+          created_by: string | null;
+          editor_summary: string | null;
+          event_date: string | null;
+          id: string;
+          is_featured: boolean;
+          is_pinned: boolean;
+          lat: number | null;
+          lng: number | null;
+          published_at: string | null;
+          slug: string;
+          starts_at: string | null;
+          status: Database["public"]["Enums"]["event_status"];
+          summary_lang: string | null;
+          title: string;
+          updated_at: string;
+          view_count: number;
+        };
+        Insert: {
+          ai_summary?: string | null;
+          category_id?: string | null;
+          city_id?: string | null;
+          confidence?: number | null;
+          created_at?: string;
+          created_by?: string | null;
+          editor_summary?: string | null;
+          event_date?: string | null;
+          id?: string;
+          is_featured?: boolean;
+          is_pinned?: boolean;
+          lat?: number | null;
+          lng?: number | null;
+          published_at?: string | null;
+          slug: string;
+          starts_at?: string | null;
+          status?: Database["public"]["Enums"]["event_status"];
+          summary_lang?: string | null;
+          title: string;
+          updated_at?: string;
+          view_count?: number;
+        };
+        Update: {
+          ai_summary?: string | null;
+          category_id?: string | null;
+          city_id?: string | null;
+          confidence?: number | null;
+          created_at?: string;
+          created_by?: string | null;
+          editor_summary?: string | null;
+          event_date?: string | null;
+          id?: string;
+          is_featured?: boolean;
+          is_pinned?: boolean;
+          lat?: number | null;
+          lng?: number | null;
+          published_at?: string | null;
+          slug?: string;
+          starts_at?: string | null;
+          status?: Database["public"]["Enums"]["event_status"];
+          summary_lang?: string | null;
+          title?: string;
+          updated_at?: string;
+          view_count?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "events_category_id_fkey";
+            columns: ["category_id"];
+            isOneToOne: false;
+            referencedRelation: "categories";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "events_city_id_fkey";
+            columns: ["city_id"];
+            isOneToOne: false;
+            referencedRelation: "cities";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "events_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -46,9 +200,11 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      is_moderator: { Args: never; Returns: boolean };
     };
     Enums: {
+      event_status:
+        "draft" | "needs_review" | "published" | "rejected" | "archived";
       user_role: "user" | "moderator" | "admin";
     };
     CompositeTypes: {
@@ -177,6 +333,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      event_status: [
+        "draft",
+        "needs_review",
+        "published",
+        "rejected",
+        "archived",
+      ],
       user_role: ["user", "moderator", "admin"],
     },
   },
