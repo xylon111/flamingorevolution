@@ -191,3 +191,44 @@ export async function searchEvents(term: string) {
 
   return data ?? [];
 }
+
+export type EventMapPoint = {
+  id: string;
+  slug: string;
+  title: string;
+  lat: number;
+  lng: number;
+};
+
+/** Published events that have coordinates (own or via their city). */
+export async function getEventMapPoints(): Promise<EventMapPoint[]> {
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("events")
+    .select(
+      `
+      id,
+      slug,
+      title,
+      lat,
+      lng,
+      city:cities ( lat, lng )
+    `,
+    )
+    .eq("status", "published");
+
+  if (error) {
+    throw new Error(`Failed to load map points: ${error.message}`);
+  }
+
+  const points: EventMapPoint[] = [];
+  for (const e of data ?? []) {
+    const lat = e.lat ?? e.city?.lat ?? null;
+    const lng = e.lng ?? e.city?.lng ?? null;
+    if (lat !== null && lng !== null) {
+      points.push({ id: e.id, slug: e.slug, title: e.title, lat, lng });
+    }
+  }
+  return points;
+}
