@@ -170,6 +170,61 @@ export type Database = {
           },
         ];
       };
+      event_timeline_entries: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          description: string | null;
+          event_id: string;
+          id: string;
+          occurred_at: string;
+          source_id: string | null;
+          title: string;
+        };
+        Insert: {
+          created_at?: string;
+          created_by?: string | null;
+          description?: string | null;
+          event_id: string;
+          id?: string;
+          occurred_at: string;
+          source_id?: string | null;
+          title: string;
+        };
+        Update: {
+          created_at?: string;
+          created_by?: string | null;
+          description?: string | null;
+          event_id?: string;
+          id?: string;
+          occurred_at?: string;
+          source_id?: string | null;
+          title?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "event_timeline_entries_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "event_timeline_entries_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "event_timeline_entries_source_id_fkey";
+            columns: ["source_id"];
+            isOneToOne: false;
+            referencedRelation: "sources";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       events: {
         Row: {
           ai_summary: string | null;
@@ -264,6 +319,75 @@ export type Database = {
           },
         ];
       };
+      media: {
+        Row: {
+          caption: string | null;
+          created_at: string;
+          credit: string | null;
+          event_id: string | null;
+          exif_stripped: boolean;
+          external_url: string | null;
+          height: number | null;
+          id: string;
+          license: string | null;
+          source_id: string | null;
+          storage: Database["public"]["Enums"]["media_storage"];
+          storage_path: string | null;
+          thumbnail_path: string | null;
+          type: Database["public"]["Enums"]["media_type"];
+          width: number | null;
+        };
+        Insert: {
+          caption?: string | null;
+          created_at?: string;
+          credit?: string | null;
+          event_id?: string | null;
+          exif_stripped?: boolean;
+          external_url?: string | null;
+          height?: number | null;
+          id?: string;
+          license?: string | null;
+          source_id?: string | null;
+          storage?: Database["public"]["Enums"]["media_storage"];
+          storage_path?: string | null;
+          thumbnail_path?: string | null;
+          type: Database["public"]["Enums"]["media_type"];
+          width?: number | null;
+        };
+        Update: {
+          caption?: string | null;
+          created_at?: string;
+          credit?: string | null;
+          event_id?: string | null;
+          exif_stripped?: boolean;
+          external_url?: string | null;
+          height?: number | null;
+          id?: string;
+          license?: string | null;
+          source_id?: string | null;
+          storage?: Database["public"]["Enums"]["media_storage"];
+          storage_path?: string | null;
+          thumbnail_path?: string | null;
+          type?: Database["public"]["Enums"]["media_type"];
+          width?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "media_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "media_source_id_fkey";
+            columns: ["source_id"];
+            isOneToOne: false;
+            referencedRelation: "sources";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       organizations: {
         Row: {
           created_at: string;
@@ -354,6 +478,81 @@ export type Database = {
         };
         Relationships: [];
       };
+      sources: {
+        Row: {
+          ai_category: string | null;
+          ai_summary: string | null;
+          ai_tags: string[] | null;
+          ai_title: string | null;
+          created_at: string;
+          detected_city: string | null;
+          detected_date: string | null;
+          event_id: string | null;
+          id: string;
+          is_relevant: boolean | null;
+          platform: Database["public"]["Enums"]["source_platform"];
+          processed_at: string | null;
+          raw_metadata: Json | null;
+          reliability: Database["public"]["Enums"]["source_reliability"];
+          status: Database["public"]["Enums"]["source_status"];
+          submitted_by: string | null;
+          url: string;
+        };
+        Insert: {
+          ai_category?: string | null;
+          ai_summary?: string | null;
+          ai_tags?: string[] | null;
+          ai_title?: string | null;
+          created_at?: string;
+          detected_city?: string | null;
+          detected_date?: string | null;
+          event_id?: string | null;
+          id?: string;
+          is_relevant?: boolean | null;
+          platform?: Database["public"]["Enums"]["source_platform"];
+          processed_at?: string | null;
+          raw_metadata?: Json | null;
+          reliability?: Database["public"]["Enums"]["source_reliability"];
+          status?: Database["public"]["Enums"]["source_status"];
+          submitted_by?: string | null;
+          url: string;
+        };
+        Update: {
+          ai_category?: string | null;
+          ai_summary?: string | null;
+          ai_tags?: string[] | null;
+          ai_title?: string | null;
+          created_at?: string;
+          detected_city?: string | null;
+          detected_date?: string | null;
+          event_id?: string | null;
+          id?: string;
+          is_relevant?: boolean | null;
+          platform?: Database["public"]["Enums"]["source_platform"];
+          processed_at?: string | null;
+          raw_metadata?: Json | null;
+          reliability?: Database["public"]["Enums"]["source_reliability"];
+          status?: Database["public"]["Enums"]["source_status"];
+          submitted_by?: string | null;
+          url?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "sources_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "sources_submitted_by_fkey";
+            columns: ["submitted_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       tags: {
         Row: {
           created_at: string;
@@ -385,11 +584,41 @@ export type Database = {
     Enums: {
       event_status:
         "draft" | "needs_review" | "published" | "rejected" | "archived";
+      media_storage: "external" | "supabase";
+      media_type: "photo" | "video" | "document";
       organization_type:
         "ngo" | "party" | "gov" | "police" | "media" | "business" | "other";
       person_kind:
         "public_official" | "organization_rep" | "public_figure" | "private";
       person_visibility: "public" | "restricted" | "redacted";
+      source_platform:
+        | "instagram"
+        | "facebook"
+        | "youtube"
+        | "tiktok"
+        | "news"
+        | "photo"
+        | "video"
+        | "pdf"
+        | "witness"
+        | "other";
+      source_reliability:
+        | "government"
+        | "major_news"
+        | "verified_journalist"
+        | "verified_organizer"
+        | "citizen_video"
+        | "citizen_photo"
+        | "anonymous"
+        | "unknown";
+      source_status:
+        | "pending"
+        | "processing"
+        | "needs_review"
+        | "approved"
+        | "rejected"
+        | "duplicate"
+        | "error";
       user_role: "user" | "moderator" | "admin";
     };
     CompositeTypes: {
@@ -525,6 +754,8 @@ export const Constants = {
         "rejected",
         "archived",
       ],
+      media_storage: ["external", "supabase"],
+      media_type: ["photo", "video", "document"],
       organization_type: [
         "ngo",
         "party",
@@ -541,6 +772,37 @@ export const Constants = {
         "private",
       ],
       person_visibility: ["public", "restricted", "redacted"],
+      source_platform: [
+        "instagram",
+        "facebook",
+        "youtube",
+        "tiktok",
+        "news",
+        "photo",
+        "video",
+        "pdf",
+        "witness",
+        "other",
+      ],
+      source_reliability: [
+        "government",
+        "major_news",
+        "verified_journalist",
+        "verified_organizer",
+        "citizen_video",
+        "citizen_photo",
+        "anonymous",
+        "unknown",
+      ],
+      source_status: [
+        "pending",
+        "processing",
+        "needs_review",
+        "approved",
+        "rejected",
+        "duplicate",
+        "error",
+      ],
       user_role: ["user", "moderator", "admin"],
     },
   },
