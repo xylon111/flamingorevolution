@@ -18,7 +18,7 @@ export async function SiteHeader() {
           </Link>
           <Link
             href="/events"
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="text-sm font-medium text-nature hover:text-nature/80"
           >
             Events
           </Link>
