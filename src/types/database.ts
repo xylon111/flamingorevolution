@@ -323,6 +323,7 @@ export type Database = {
           lat: number | null;
           lng: number | null;
           published_at: string | null;
+          search_vector: unknown;
           slug: string;
           starts_at: string | null;
           status: Database["public"]["Enums"]["event_status"];
@@ -346,6 +347,7 @@ export type Database = {
           lat?: number | null;
           lng?: number | null;
           published_at?: string | null;
+          search_vector?: unknown;
           slug: string;
           starts_at?: string | null;
           status?: Database["public"]["Enums"]["event_status"];
@@ -369,6 +371,7 @@ export type Database = {
           lat?: number | null;
           lng?: number | null;
           published_at?: string | null;
+          search_vector?: unknown;
           slug?: string;
           starts_at?: string | null;
           status?: Database["public"]["Enums"]["event_status"];

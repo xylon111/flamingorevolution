@@ -28,6 +28,12 @@ export async function SiteHeader() {
           >
             Timeline
           </Link>
+          <Link
+            href="/search"
+            className="text-sm font-medium text-nature hover:text-nature/80"
+          >
+            Search
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">

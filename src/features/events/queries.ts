@@ -155,3 +155,39 @@ export async function getFilterOptions() {
     categories: categories.data ?? [],
   };
 }
+
+/** Full-text search over published events (title + summaries). */
+export async function searchEvents(term: string) {
+  const trimmed = term.trim();
+  if (!trimmed) return [];
+
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("events")
+    .select(
+      `
+      id,
+      slug,
+      title,
+      editor_summary,
+      event_date,
+      confidence,
+      is_featured,
+      city:cities ( name_sq, name_en ),
+      category:categories ( slug, name_sq, name_en )
+    `,
+    )
+    .eq("status", "published")
+    .textSearch("search_vector", trimmed, {
+      type: "websearch",
+      config: "simple",
+    })
+    .limit(30);
+
+  if (error) {
+    throw new Error(`Search failed: ${error.message}`);
+  }
+
+  return data ?? [];
+}
