@@ -22,6 +22,12 @@ export async function SiteHeader() {
           >
             Events
           </Link>
+          <Link
+            href="/timeline"
+            className="text-sm font-medium text-nature hover:text-nature/80"
+          >
+            Timeline
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">
