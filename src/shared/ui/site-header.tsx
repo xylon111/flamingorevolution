@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getCurrentUser, signOut } from "@/features/auth";
 import { Link } from "@/i18n/navigation";
@@ -16,7 +17,18 @@ export async function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-4 px-4">
         <div className="flex items-center gap-4">
-          <Link href="/" className="text-lg font-bold text-flamingo">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-lg font-bold text-flamingo"
+          >
+            <Image
+              src="/flamingo.png"
+              alt="Flamingo Revolution logo"
+              width={32}
+              height={32}
+              className="h-8 w-auto"
+              priority
+            />
             Flamingo Revolution
           </Link>
           <Link href="/events" className={navLink}>
